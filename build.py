@@ -12,6 +12,7 @@ sub-path such as cvcec.github.io/cvcec-website/.
 Images are written as "@/<file>" and are served from docs/images/ (light .webp
 versions in docs/images/w/ are used automatically when they exist).
 """
+import hashlib
 import html
 import json
 import os
@@ -86,6 +87,11 @@ ORG_LD = {
 }
 
 images = {}  # local file name -> source URL
+
+
+def asset_version(name):
+    return hashlib.md5((SRC / "assets" / name).read_bytes()).hexdigest()[:8]
+
 
 
 # ---------------------------------------------------------------- helpers
@@ -250,7 +256,7 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
-<link rel="stylesheet" href="/assets/site.css">
+<link rel="stylesheet" href="/assets/site.css?v={asset_version("site.css")}">
 {ld}</head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -328,7 +334,7 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
   <figure><img alt=""><figcaption></figcaption></figure>
   <button class="lb-next" aria-label="Next photo">›</button>
 </div>
-<script src="/assets/site.js" defer></script>
+<script src="/assets/site.js?v={asset_version("site.js")}" defer></script>
 </body>
 </html>
 """
