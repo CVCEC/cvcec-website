@@ -82,8 +82,8 @@ ORG_LD = {
     "areaServed": [{"@type": "AdministrativeArea", "name": n} for n in
                    ("Ontario", "Prince Edward Island", "Manitoba")],
     "knowsLanguage": ["en", "vi"],
-    "sameAs": ["https://facebook.com/cvcec.org", "https://youtube.com/@CVCEC2024",
-               "https://linkedin.com/company/cvcec/"],
+    "sameAs": ["https://www.wikidata.org/wiki/Q142216633", "https://facebook.com/cvcec.org",
+               "https://youtube.com/@CVCEC2024", "https://linkedin.com/company/cvcec/"],
 }
 
 images = {}  # local file name -> source URL
