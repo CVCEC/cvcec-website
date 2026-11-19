@@ -80,6 +80,23 @@
     });
   }
 
+  // journey timeline filters
+  var chips = document.querySelectorAll(".filters .chip");
+  if (chips.length) {
+    chips.forEach(function (chip) {
+      chip.addEventListener("click", function () {
+        var f = chip.getAttribute("data-filter");
+        chips.forEach(function (c) { c.setAttribute("aria-pressed", c === chip ? "true" : "false"); });
+        document.querySelectorAll(".tl-item").forEach(function (it) {
+          it.hidden = !(f === "all" || it.getAttribute("data-cat") === f);
+        });
+        document.querySelectorAll(".tl-year").forEach(function (y) {
+          y.hidden = !y.querySelector(".tl-item:not([hidden])");
+        });
+      });
+    });
+  }
+
   // contact form: opens the visitor's email app with the message filled in
   document.querySelectorAll("form.contact-form").forEach(function (form) {
     form.addEventListener("submit", function (e) {
@@ -87,7 +104,9 @@
       var name = form.querySelector("[name=name]").value.trim();
       var email = form.querySelector("[name=email]").value.trim();
       var msg = form.querySelector("[name=message]").value.trim();
-      var subject = "Message from the CVCEC website" + (name ? " – " + name : "");
+      var topicEl = form.querySelector("[name=topic]");
+      var topic = topicEl ? topicEl.value : "";
+      var subject = "CVCEC website" + (topic ? ": " + topic : "") + (name ? " – " + name : "");
       var body = msg + "\n\n— " + name + (email ? " (" + email + ")" : "");
       window.location.href = "mailto:contact@cvcec.org?subject=" +
         encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
