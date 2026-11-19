@@ -82,6 +82,9 @@ def image_url(token, prefix):
     name = image_name(token)
     if REMOTE_IMAGES:
         return images[name]
+    light = OUT / "images" / "w" / (Path(name).stem + ".webp")
+    if light.exists():
+        return f"{prefix}images/w/{light.name}"
     return f"{prefix}images/{name}"
 
 

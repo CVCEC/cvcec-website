@@ -108,7 +108,7 @@ strong { color: var(--ink); }
 .page-head .lead { max-width: 760px; }
 
 .hero-image { background: var(--cream); border-bottom: 1px solid var(--line); }
-.hero-image img { width: 100%; max-width: 1640px; margin-inline: auto; }
+.hero-image img { width: 100%; max-width: 1640px; margin-inline: auto; aspect-ratio: 1640 / 500; object-fit: cover; object-position: center 54%; }
 .hero { padding: clamp(2.2rem, 1.5rem + 3vw, 4rem) 0 1rem; text-align: center; }
 .hero h1 { max-width: 900px; margin-inline: auto; }
 .hero .lead { max-width: 760px; margin: 0 auto 1.5rem; }
