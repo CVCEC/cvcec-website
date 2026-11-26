@@ -21,6 +21,10 @@ import shutil
 from datetime import date
 from pathlib import Path
 from urllib.parse import quote
+import sys
+
+sys.path.insert(0, str(Path(__file__).parent / "tools"))
+from i18n import translate  # noqa: E402
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "src"
@@ -39,8 +43,12 @@ SCHOOL = "https://vietclass.cvcec.org/"
 NAV = [
     ("About", "/about", [("About CVCEC", "/about"), ("Governance & accountability", "/about/governance")]),
     ("Programs", "/programs", [("All programs", "/programs"),
+                               ("Vietnamese School · Trường Tiếng Việt Của Em", "/programs/vietnamese-school"),
+                               ("PEI Branch", "/programs/pei-branch"),
                                ("Viet Youth Readiness Hub", "/programs/viet-youth-readiness-hub"),
-                               ("Vietnamese learning platform", SCHOOL),
+                               ("Viet Youth Readiness & Safety Initiative", "/programs/viet-youth-safety-initiative"),
+                               ("Leading Urban Change (U of T)", "/programs/leading-urban-change"),
+                               ("Mentoring Program for Educators", "/programs/mentoring-program"),
                                ("Study in Canada guide", "https://duhoccanada.cvcec.org/")]),
     ("Our Impact", "/our-impact", []),
     ("News & Media", "/news-media", [("Media coverage", "/news-media"), ("News releases", "/news-media/news"),
@@ -50,7 +58,7 @@ NAV = [
 
 CRUMB = {
     "about": "About", "governance": "Governance", "programs": "Programs",
-    "viet-youth-readiness-hub": "Viet Youth Readiness Hub", "our-impact": "Our Impact",
+    "viet-youth-readiness-hub": "Viet Youth Readiness Hub", "vietnamese-school": "Vietnamese School", "pei-branch": "PEI Branch", "viet-youth-safety-initiative": "Viet Youth Readiness & Safety Initiative", "leading-urban-change": "Leading Urban Change", "mentoring-program": "Mentoring Program", "our-impact": "Our Impact",
     "news-media": "News & Media", "news": "News releases", "gallery": "Photo gallery",
     "get-involved": "Get Involved", "contact": "Contact", "privacy-policy": "Privacy Policy",
     "accessibility": "Accessibility",
@@ -71,7 +79,7 @@ ORG_LD = {
     "alternateName": "CVCEC",
     "legalName": ORG,
     "url": SITE + "/",
-    "logo": SITE + "/assets/favicon.svg",
+    "logo": SITE + "/assets/favicon.png",
     "email": "contact@cvcec.org",
     "foundingDate": "2024-12",
     "identifier": {"@type": "PropertyValue", "propertyID": "Canada Not-for-profit Corporation Number",
@@ -87,6 +95,96 @@ ORG_LD = {
 }
 
 images = {}  # local file name -> source URL
+LANG = "en"  # "en" while building English pages, "vi" while building /vi/ pages
+VI_DIR = SRC / "i18n" / "vi"
+
+# Words in the shared header, menu and footer (English -> Vietnamese)
+UI_VI = [
+    ('<html lang="en-CA">', '<html lang="vi">'),
+    ('content="en_CA"', 'content="vi_VN"'),
+    ('Skip to main content', 'Chuyển đến nội dung chính'),
+    ('Canadian federal not-for-profit · Free programs for families', 'Tổ chức phi lợi nhuận liên bang Canada · Chương trình miễn phí cho gia đình'),
+    ('aria-label="CVCEC home"', 'aria-label="Trang chủ CVCEC"'),
+    ('Canada Vietnam Cultural &amp; Educational Council</span></span>', 'Hội đồng Văn hoá &amp; Giáo dục Canada – Việt Nam</span></span>'),
+    ('>About CVCEC<', '>Về CVCEC<'), ('>About<', '>Giới thiệu<'),
+    ('>Governance &amp; accountability<', '>Quản trị &amp; trách nhiệm giải trình<'),
+    ('>All programs<', '>Tất cả chương trình<'), ('>Programs<', '>Chương trình<'),
+    ('>Vietnamese School · Trường Tiếng Việt Của Em<', '>Trường Tiếng Việt Của Em<'),
+    ('>PEI Branch<', '>Chi nhánh PEI<'),
+    ('>Viet Youth Readiness &amp; Safety Initiative<', '>Sáng kiến Sẵn sàng &amp; An toàn<'),
+    ('>Mentoring Program for Educators<', '>Chương trình Mentoring cho nhà giáo<'),
+    ('>Study in Canada guide', '>Cẩm nang Du học Canada'),
+    ('>Our Impact<', '>Tác động<'), ('>News &amp; Media<', '>Tin tức &amp; Báo chí<'),
+    ('>Media coverage<', '>Báo chí đưa tin<'), ('>News releases<', '>Thông cáo báo chí<'),
+    ('>Photo gallery<', '>Thư viện ảnh<'), ('>Contact<', '>Liên hệ<'), ('>Get involved<', '>Tham gia<'),
+    ('aria-label="Show About pages"', 'aria-label="Xem các trang Giới thiệu"'),
+    ('aria-label="Show Programs pages"', 'aria-label="Xem các trang Chương trình"'),
+    ('aria-label="Show News &amp; Media pages"', 'aria-label="Xem các trang Tin tức"'),
+    ('aria-label="Main"', 'aria-label="Menu chính"'),
+    ('Young people, language and learning: <em>a bridge between Canada and Vietnam.</em>', 'Thế hệ trẻ, ngôn ngữ và giáo dục: <em>nhịp cầu nối Canada và Việt Nam.</em>'),
+    ('>Learn Vietnamese free<', '>Học tiếng Việt miễn phí<'),
+    ('Hội đồng Văn hoá &amp; Giáo dục Canada – Việt Nam. A Canadian federal not-for-profit corporation (No. 1657486-6) based in Toronto, serving Vietnamese-Canadian children, youth, newcomer families and everyone who wants to know Vietnam.',
+     'Canada Vietnam Cultural &amp; Educational Council. Tổ chức phi lợi nhuận liên bang Canada (số đăng ký 1657486-6) có trụ sở tại Toronto, đồng hành cùng trẻ em, thanh niên, gia đình mới nhập cư gốc Việt và tất cả những ai muốn hiểu Việt Nam.'),
+    ('<p class="footer-head">Organization</p>', '<p class="footer-head">Tổ chức</p>'),
+    ('<p class="footer-head">Accountability</p>', '<p class="footer-head">Trách nhiệm giải trình</p>'),
+    ('>Vietnamese School<', '>Trường Tiếng Việt<'),
+    ('>Readiness &amp; Safety Initiative<', '>Sáng kiến Sẵn sàng &amp; An toàn<'),
+    ('>Mentoring Program<', '>Chương trình Mentoring<'),
+    ('>Our journey &amp; impact<', '>Hành trình &amp; tác động<'),
+    ('>Governance<', '>Quản trị<'), ('>Privacy Policy<', '>Quyền riêng tư<'), ('>Accessibility<', '>Tiếp cận<'),
+    ('<strong>Land acknowledgement.</strong> CVCEC is based in Toronto, on the traditional territory of many nations including the Mississaugas of the Credit, the Anishnabeg, the Chippewa, the Haudenosaunee and the Wendat peoples, and now home to many diverse First Nations, Inuit and Métis peoples. Toronto is covered by Treaty 13 with the Mississaugas of the Credit.',
+     '<strong>Lời tri ân vùng đất.</strong> CVCEC có trụ sở tại Toronto, trên lãnh thổ truyền thống của nhiều dân tộc, trong đó có Mississaugas of the Credit, Anishnabeg, Chippewa, Haudenosaunee và Wendat, và ngày nay là quê hương của nhiều cộng đồng First Nations, Inuit và Métis. Toronto thuộc Hiệp ước số 13 với Mississaugas of the Credit.'),
+    ('All rights reserved.', 'Bảo lưu mọi quyền.'),
+    ('aria-label="Close photo"', 'aria-label="Đóng ảnh"'), ('aria-label="Previous photo"', 'aria-label="Ảnh trước"'),
+    ('aria-label="Next photo"', 'aria-label="Ảnh sau"'),
+    ('aria-label="Breadcrumb"', 'aria-label="Đường dẫn"'),
+    # news cards and news release pages
+    ('Read the story<span class="sr-only">', 'Đọc tiếp<span class="sr-only">'),
+    ('<span>« Previous</span>', '<span>« Bài trước</span>'), ('<span>Next »</span>', '<span>Bài sau »</span>'),
+    ('<p class="eyebrow">News release</p>', '<p class="eyebrow">Thông cáo báo chí</p>'),
+    ('</time> · Toronto, Ontario</p>', '</time> · Toronto, Ontario</p>'),
+    ('aria-label="Share this story"', 'aria-label="Chia sẻ bài viết"'), ('<span>Share:</span>', '<span>Chia sẻ:</span>'),
+    ('aria-label="More news"', 'aria-label="Tin khác"'), ('>Home<', '>Trang chủ<'),
+    ('<p><strong>About CVCEC</strong><br>\nThe Canada Vietnam Cultural &amp; Educational Council (CVCEC) is a federally incorporated not-for-profit organization based in Toronto. It offers Vietnamese language and culture classes for children, helps newcomer and international students settle into Canadian schools and connects education communities in Canada and Vietnam. More information is available at',
+     '<p><strong>Về CVCEC</strong><br>\nHội đồng Văn hoá &amp; Giáo dục Canada – Việt Nam (CVCEC) là tổ chức phi lợi nhuận đăng ký liên bang, có trụ sở tại Toronto. CVCEC tổ chức lớp tiếng Việt và văn hoá cho trẻ em, giúp học sinh mới nhập cư và du học sinh hoà nhập trường học Canada, và kết nối cộng đồng giáo dục Canada và Việt Nam. Thông tin chi tiết tại'),
+    ('<p><strong>About the Viet Youth Readiness Hub</strong><br>\nLaunched in Toronto in April 2026, the Viet Youth Readiness Hub (VYRH) is a CVCEC initiative that helps Vietnamese students and families understand Canadian schools through orientation sessions, mentoring and youth leadership opportunities.',
+     '<p><strong>Về Viet Youth Readiness Hub</strong><br>\nRa mắt tại Toronto tháng 4/2026, Viet Youth Readiness Hub (VYRH) là sáng kiến của CVCEC giúp học sinh và gia đình Việt Nam hiểu trường học Canada qua các buổi định hướng, mentoring và cơ hội lãnh đạo cho thanh niên.'),
+    ('<p><strong>Media contact</strong><br>\nPhan Thi Quynh Trang, founder and president<br>', '<p><strong>Liên hệ báo chí</strong><br>\nPhan Thị Quỳnh Trang, Nhà sáng lập kiêm Chủ tịch<br>'),
+]
+
+
+def vi_path(url_path):
+    """English address -> Vietnamese address (/about -> /vi/about, / -> /vi/)."""
+    return "/vi/" if url_path == "/" else "/vi" + url_path
+
+
+def en_path(url_path):
+    if url_path in ("/vi", "/vi/"):
+        return "/"
+    return url_path[3:] if url_path.startswith("/vi/") else url_path
+
+
+VI_PAGES = set()  # English paths that have a Vietnamese version
+
+
+def link_to_vi(markup):
+    """Point internal links at the Vietnamese pages when they exist."""
+    def fix(m):
+        val = m.group(1)
+        path, sep, frag = val.partition("#")
+        if path in VI_PAGES:
+            return f'href="{vi_path(path)}{sep}{frag}"'
+        return m.group(0)
+    return re.sub(r'href="(/[^"]*)"', fix, markup)
+
+
+def vi_table(name):
+    f = VI_DIR / f"{name}.json"
+    if not f.exists():
+        return {}, {}
+    data = json.loads(f.read_text(encoding="utf-8"))
+    return data.get("meta", {}), data.get("text", {})
+
 
 
 def asset_version(name):
@@ -109,7 +207,12 @@ def read_fragment(path):
 
 def prefix_for(url_path):
     """'../' prefix from the directory of url_path back to the site root."""
-    depth = url_path.strip("/").count("/") if url_path != "/" else 0
+    if url_path == "/":
+        depth = 0
+    elif url_path.endswith("/"):
+        depth = url_path.strip("/").count("/") + 1
+    else:
+        depth = url_path.strip("/").count("/")
     return "../" * depth
 
 
@@ -193,6 +296,12 @@ def nav_html(current):
         else:
             cur = ' aria-current="page"' if current == href else ""
             items.append(f'<li><a href="{href}"{cls}{cur}>{esc(label)}</a></li>')
+    if LANG == "vi":
+        other = "@@EN@@" + current
+    else:
+        other = vi_path(current) if current in VI_PAGES else "/vi/"
+    label, code = ("English", "en") if LANG == "vi" else ("Tiếng Việt", "vi")
+    items.append(f'<li class="lang-switch"><a href="{other}" hreflang="{code}" lang="{code}">{label}</a></li>')
     items.append('<li class="nav-cta"><a href="/get-involved">Get involved</a></li>')
     return "".join(items)
 
@@ -235,6 +344,12 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
         if extra:
             lds.append(extra)
     ld = "".join(ld_tag(x) for x in lds)
+    base_en = en_path(url_path)
+    hreflang = ""
+    if base_en in VI_PAGES:
+        hreflang = (f'<link rel="alternate" hreflang="en-CA" href="{SITE}{base_en}">\n'
+                    f'<link rel="alternate" hreflang="vi" href="{SITE}{vi_path(base_en)}">\n'
+                    f'<link rel="alternate" hreflang="x-default" href="{SITE}{base_en}">')
     page = f"""<!DOCTYPE html>
 <html lang="en-CA">
 <head>
@@ -243,6 +358,7 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
 <title>{esc(title)}</title>
 <meta name="description" content="{esc(description)}">
 {robots}<link rel="canonical" href="{canonical}">
+{hreflang}
 <meta property="og:type" content="{og_type}">
 <meta property="og:locale" content="en_CA">
 <meta property="og:site_name" content="{esc(ORG)} (CVCEC)">
@@ -251,30 +367,32 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
 <meta property="og:url" content="{canonical}">
 <meta property="og:image" content="{og}">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#0e2a47">
-<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#c80000">
+<link rel="icon" href="/assets/favicon.png" type="image/png">
+<link rel="apple-touch-icon" href="/assets/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Merriweather:ital,wght@0,400;0,700;0,900;1,400&display=swap">
 <link rel="stylesheet" href="/assets/site.css?v={asset_version("site.css")}">
 {ld}</head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
 <div class="topbar"><div class="wrap topbar-inner">
-  <span><span class="maple" aria-hidden="true">●</span>Canadian federal not-for-profit · Corporation No. 1657486-6</span>
+  <span><span class="flags" aria-hidden="true"><i class="flag-ca"></i><i class="flag-vn"></i></span>Canadian federal not-for-profit · Free programs for families</span>
   <span class="topbar-right">Toronto, Ontario · <a href="mailto:contact@cvcec.org">contact@cvcec.org</a></span>
 </div></div>
 <header class="site-header">
   <div class="wrap header-inner">
     <a class="brand" href="/" aria-label="CVCEC home">
-      <span class="brand-mark">CVCEC</span>
-      <span class="brand-text">Canada Vietnam Cultural &amp; Educational Council</span>
+      <img src="/assets/logo-mark.webp" alt="" width="50" height="53">
+      <span class="brand-name"><span class="brand-mark"><b>C</b>VCEC</span>
+      <span class="brand-text">Canada Vietnam Cultural &amp; Educational Council</span></span>
     </a>
     <button class="menu-toggle" aria-expanded="false" aria-controls="site-nav">
       <span class="menu-bars" aria-hidden="true"></span><span class="menu-label">Menu</span>
     </button>
     <nav id="site-nav" class="site-nav" aria-label="Main">
-      <ul class="nav-list">{nav_html(url_path)}</ul>
+      <ul class="nav-list">{nav_html(en_path(url_path))}</ul>
     </nav>
   </div>
 </header>
@@ -282,22 +400,31 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
 {body}
 </main>
 <footer class="site-footer">
+  <div class="wrap footer-top">
+    <p>Young people, language and learning: <em>a bridge between Canada and Vietnam.</em></p>
+    <div><a class="btn" href="/get-involved">Get involved</a> <a class="btn btn-ghost-light" href="{SCHOOL}">Learn Vietnamese free</a></div>
+  </div>
   <div class="wrap footer-grid">
     <div>
-      <div class="footer-brand"><span class="brand-mark">CVCEC</span><span>{esc(ORG)}</span></div>
-      <p>A Canadian federal not-for-profit corporation (No. 1657486-6) based in Toronto, serving Vietnamese-Canadian children, youth and newcomer families.</p>
+      <div class="footer-brand"><img src="/assets/logo-mark.webp" alt="" width="52" height="55"><span class="brand-mark"><b>C</b>VCEC<small>{esc(ORG)}</small></span></div>
+      <p>Hội đồng Văn hoá &amp; Giáo dục Canada – Việt Nam. A Canadian federal not-for-profit corporation (No. 1657486-6) based in Toronto, serving Vietnamese-Canadian children, youth, newcomer families and everyone who wants to know Vietnam.</p>
       <p>Suite 300, 192 Spadina Avenue<br>Toronto, ON M5T 2C2<br><a href="mailto:contact@cvcec.org">contact@cvcec.org</a></p>
       <ul class="social">
         <li><a href="https://facebook.com/cvcec.org">Facebook</a></li>
         <li><a href="https://linkedin.com/company/cvcec/">LinkedIn</a></li>
         <li><a href="https://youtube.com/@CVCEC2024">YouTube</a></li>
+        <li><a href="https://api.whatsapp.com/send?phone=16478972358">WhatsApp</a></li>
       </ul>
     </div>
     <div>
       <p class="footer-head">Programs</p>
       <ul class="footer-links">
-        <li><a href="{SCHOOL}">Vietnamese learning platform</a></li>
         <li><a href="/programs/viet-youth-readiness-hub">Viet Youth Readiness Hub</a></li>
+        <li><a href="/programs/vietnamese-school">Vietnamese School</a></li>
+        <li><a href="/programs/pei-branch">PEI Branch</a></li>
+        <li><a href="/programs/viet-youth-safety-initiative">Readiness &amp; Safety Initiative</a></li>
+        <li><a href="/programs/leading-urban-change">Leading Urban Change</a></li>
+        <li><a href="/programs/mentoring-program">Mentoring Program</a></li>
         <li><a href="https://duhoccanada.cvcec.org/">Study in Canada guide</a></li>
         <li><a href="/programs">All programs</a></li>
       </ul>
@@ -338,11 +465,21 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
 </body>
 </html>
 """
+    if LANG == "vi":
+        for a, b in UI_VI:
+            page = page.replace(a, b)
+        page = link_to_vi(page).replace("@@EN@@", "")
+        page = page.replace('"inLanguage": "en-CA"', '"inLanguage": "vi"')
     return localize(page, url_path)
 
 
 def write(url_path, markup):
-    rel = "index.html" if url_path == "/" else url_path.strip("/") + ".html"
+    if url_path == "/":
+        rel = "index.html"
+    elif url_path.endswith("/"):
+        rel = url_path.strip("/") + "/index.html"
+    else:
+        rel = url_path.strip("/") + ".html"
     target = OUT / rel
     target.parent.mkdir(parents=True, exist_ok=True)
     target.write_text(markup, encoding="utf-8")
@@ -352,6 +489,8 @@ def write(url_path, markup):
 # ---------------------------------------------------------------- news
 def fmt_date(iso):
     y, m, d = (int(x) for x in iso.split("-"))
+    if LANG == "vi":
+        return f"{d}/{m}/{y}"
     return date(y, m, d).strftime("%B %-d, %Y")
 
 
@@ -450,22 +589,58 @@ def main():
     shutil.copytree(SRC / "assets", OUT / "assets", dirs_exist_ok=True)
     (OUT / ".nojekyll").write_text("")
 
+    global LANG
     posts = load_posts()
     written = []
-
+    page_files = []
     for f in sorted((SRC / "pages").rglob("*.html")):
         rel = f.relative_to(SRC / "pages").with_suffix("")
         url_path = "/" if str(rel) == "index" else "/" + str(rel)
-        meta, body = read_fragment(f)
-        body = body.replace("<!--LATEST_NEWS-->", "".join(news_card(p) for p in posts[:3]))
-        body = body.replace("<!--ALL_NEWS-->", "".join(news_card(p, "h2") for p in posts))
-        written.append((url_path, write(url_path, layout(url_path, meta["title"], meta["description"],
-                                                          body, meta.get("image")))))
+        page_files.append((f, url_path, str(rel).replace("/", "__")))
+    for f, url_path, name in page_files:
+        if (VI_DIR / f"{name}.json").exists():
+            VI_PAGES.add(url_path)
+    for p in posts:
+        if (VI_DIR / f"post__{p['id']}.json").exists():
+            VI_PAGES.add(p["path"])
 
-    for i, p in enumerate(posts):
-        older = posts[i + 1] if i + 1 < len(posts) else None
-        newer = posts[i - 1] if i > 0 else None
-        written.append((p["path"], write(p["path"], build_post(p, older, newer))))
+    def build_pages(posts_here, to_url, tables):
+        for f, url_path, name in page_files:
+            if LANG == "vi" and url_path not in VI_PAGES:
+                continue
+            meta, body = read_fragment(f)
+            title, desc = meta["title"], meta["description"]
+            if LANG == "vi":
+                vmeta, table = tables(name)
+                body = translate(body, table)
+                title, desc = vmeta.get("title", title), vmeta.get("description", desc)
+            body = body.replace("<!--LATEST_NEWS-->", "".join(news_card(p) for p in posts_here[:3]))
+            body = body.replace("<!--ALL_NEWS-->", "".join(news_card(p, "h2") for p in posts_here))
+            out_path = to_url(url_path)
+            written.append((out_path, write(out_path, layout(out_path, title, desc, body, meta.get("image")))))
+        for i, p in enumerate(posts_here):
+            older = posts_here[i + 1] if i + 1 < len(posts_here) else None
+            newer = posts_here[i - 1] if i > 0 else None
+            written.append((p["path"], write(p["path"], build_post(p, older, newer))))
+
+    # English site
+    LANG = "en"
+    build_pages(posts, lambda u: u, None)
+
+    # Vietnamese site under /vi/
+    LANG = "vi"
+    posts_vi = []
+    for p in posts:
+        vmeta, table = vi_table(f"post__{p['id']}")
+        if not table and not vmeta:
+            continue
+        q = dict(p)
+        q.update({k: v for k, v in vmeta.items() if v})
+        q["body"] = translate(p["body"], table)
+        q["path"] = vi_path(p["path"])
+        posts_vi.append(q)
+    build_pages(posts_vi, vi_path, vi_table)
+    LANG = "en"
 
     for old, new in REDIRECTS.items():
         write(old, redirect_page(old, new))

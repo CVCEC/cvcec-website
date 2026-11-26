@@ -1,0 +1,24 @@
+{
+ "meta": {
+  "title": "Tiếp cận (AODA) | CVCEC",
+  "description": "Cam kết của CVCEC về khả năng tiếp cận theo luật AODA của Ontario. Hãy liên hệ nếu bạn cần hỗ trợ hoặc thông tin ở định dạng khác."
+ },
+ "text": {
+  "Accessibility (AODA) | CVCEC": "Tiếp cận (AODA) | CVCEC",
+  "CVCEC's commitment to accessibility in line with Ontario's AODA. Ask us for accommodations or information in another format.": "Cam kết của CVCEC về khả năng tiếp cận theo luật AODA của Ontario. Hãy liên hệ nếu bạn cần hỗ trợ hoặc thông tin ở định dạng khác.",
+  "<a href=\"/\">Home</a><span aria-hidden=\"true\">/</span>Accessibility": "<a href=\"/\">Trang chủ</a><span aria-hidden=\"true\">/</span>Tiếp cận",
+  "Accountability": "Trách nhiệm giải trình",
+  "Accessibility": "Khả năng tiếp cận",
+  "CVCEC is committed to making our website, programs and events accessible to everyone, in line with the <em>Accessibility for Ontarians with Disabilities Act</em> (AODA).": "CVCEC cam kết để website, chương trình và sự kiện của mình đều tiếp cận được với mọi người, theo tinh thần của <em>Accessibility for Ontarians with Disabilities Act</em> (AODA).",
+  "Our website": "Website",
+  "We describe images with alternative text.": "Chúng tôi mô tả hình ảnh bằng văn bản thay thế.",
+  "We use clear headings, plain language and readable colour contrast.": "Chúng tôi dùng tiêu đề rõ ràng, ngôn ngữ dễ hiểu và màu sắc có độ tương phản dễ đọc.",
+  "We keep links and buttons descriptive, so they make sense on their own.": "Đường dẫn và nút bấm được ghi rõ nghĩa, để tự chúng đã dễ hiểu.",
+  "Some content, such as older photos or documents from partners, may not yet meet every standard. We are working to improve it.": "Một số nội dung, như ảnh cũ hoặc tài liệu từ đối tác, có thể chưa đạt mọi tiêu chuẩn. Chúng tôi đang tiếp tục cải thiện.",
+  "Our programs and events": "Chương trình và sự kiện",
+  "If you or your child need an accommodation to take part in a program or event, please tell us in advance and we will do our best to help.": "Nếu bạn hoặc con bạn cần hỗ trợ đặc biệt để tham gia một chương trình hay sự kiện, xin báo trước để chúng tôi hỗ trợ tốt nhất có thể.",
+  "Other formats and feedback": "Định dạng khác và góp ý",
+  "If you have difficulty using our website, or need information in another format or in Vietnamese, contact us at <a href=\"mailto:contact@cvcec.org\">contact@cvcec.org</a>. We welcome your feedback and will respond as soon as we can.": "Nếu bạn gặp khó khăn khi dùng website, hoặc cần thông tin ở định dạng khác hay bằng tiếng Việt, xin liên hệ <a href=\"mailto:contact@cvcec.org\">contact@cvcec.org</a>. Chúng tôi trân trọng mọi góp ý và sẽ phản hồi sớm nhất có thể.",
+  "Breadcrumb": "Đường dẫn"
+ }
+}

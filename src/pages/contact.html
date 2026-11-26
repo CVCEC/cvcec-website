@@ -12,13 +12,15 @@ description: Contact the Canada Vietnam Cultural & Educational Council (CVCEC) i
 
 <section class="section">
   <div class="wrap split" style="align-items:start">
-    <form class="contact-form card" action="mailto:contact@cvcec.org" method="post" enctype="text/plain">
+    <form class="contact-form card" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
       <div><label for="cf-name">Name *</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
       <div><label for="cf-email">Email address *</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
       <div><label for="cf-topic">Topic</label><select id="cf-topic" name="topic"><option>Programs for my child or family</option><option>School or organization partnership</option><option>Volunteering</option><option>Sponsorship</option><option>Media enquiry</option><option>Other</option></select></div>
       <div><label for="cf-message">Message *</label><textarea id="cf-message" name="message" required></textarea></div>
+      <div class="hp" aria-hidden="true"><label for="cf-hp">Leave this field empty</label><input id="cf-hp" type="text" name="_gotcha" tabindex="-1" autocomplete="off"></div>
+      <input type="hidden" name="_subject" value="New message from cvcec.org">
       <button class="btn" type="submit">Send message</button>
-      <p class="form-note">This opens your email app with your message ready to send to contact@cvcec.org.</p>
+      <p class="form-note">Your message goes to contact@cvcec.org. We will get back to you as soon as we can.</p>
       <p class="form-status" role="status" aria-live="polite"></p>
     </form>
     <div>
@@ -29,6 +31,7 @@ description: Contact the Canada Vietnam Cultural & Educational Council (CVCEC) i
         <li><strong>Email</strong><a href="mailto:contact@cvcec.org">contact@cvcec.org</a></li>
         <li><strong>For Vietnamese families</strong><a href="https://duhoccanada.cvcec.org/">duhoccanada.cvcec.org</a> (Vietnamese and English)</li>
         <li><strong>Follow us</strong><a href="https://facebook.com/cvcec.org">Facebook</a> · <a href="https://linkedin.com/company/cvcec/">LinkedIn</a> · <a href="https://youtube.com/@CVCEC2024">YouTube</a></li>
+        <li><strong>WhatsApp</strong><a href="https://api.whatsapp.com/send?phone=16478972358">Message us on WhatsApp</a></li>
       </ul>
       <div class="callout"><p>We serve families in English and Vietnamese. If you need information in another format, see our <a href="/accessibility">accessibility page</a>.</p></div>
     </div>

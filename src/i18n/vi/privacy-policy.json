@@ -1,0 +1,42 @@
+{
+ "meta": {
+  "title": "Chính sách quyền riêng tư | CVCEC",
+  "description": "Cách CVCEC thu thập, sử dụng và bảo vệ thông tin cá nhân, bao gồm việc xin phép sử dụng hình ảnh của học sinh và gia đình, theo luật PIPEDA."
+ },
+ "text": {
+  "Privacy Policy | CVCEC": "Chính sách quyền riêng tư | CVCEC",
+  "How CVCEC collects, uses and protects personal information, including photo and media consent for students and families, in line with PIPEDA.": "Cách CVCEC thu thập, sử dụng và bảo vệ thông tin cá nhân, bao gồm việc xin phép sử dụng hình ảnh của học sinh và gia đình, theo luật PIPEDA.",
+  "<a href=\"/\">Home</a><span aria-hidden=\"true\">/</span>Privacy Policy": "<a href=\"/\">Trang chủ</a><span aria-hidden=\"true\">/</span>Chính sách quyền riêng tư",
+  "Accountability": "Trách nhiệm giải trình",
+  "Privacy Policy": "Chính sách quyền riêng tư",
+  "Last updated: November 19, 2026": "Cập nhật lần cuối: 19/11/2026",
+  "The Canada Vietnam Cultural &amp; Educational Council (CVCEC) respects your privacy. This policy explains what personal information we collect, how we use it and the choices you have. We follow the principles of Canada’s <em>Personal Information Protection and Electronic Documents Act</em> (PIPEDA).": "Hội đồng Văn hoá &amp; Giáo dục Canada – Việt Nam (CVCEC) tôn trọng quyền riêng tư của bạn. Chính sách này giải thích chúng tôi thu thập thông tin cá nhân nào, sử dụng ra sao và bạn có những lựa chọn gì. Chúng tôi tuân theo các nguyên tắc của luật <em>Personal Information Protection and Electronic Documents Act</em> (PIPEDA) của Canada.",
+  "Information we collect": "Thông tin chúng tôi thu thập",
+  "<strong>Contact forms and emails:</strong> your name, email address and message.": "<strong>Form liên hệ và email:</strong> họ tên, địa chỉ email và nội dung tin nhắn.",
+  "<strong>Program sign-ups:</strong> contact details and information needed to run a program, such as a student’s grade or interests.": "<strong>Đăng ký chương trình:</strong> thông tin liên hệ và thông tin cần thiết để tổ chức chương trình, như lớp học hoặc sở thích của học sinh.",
+  "<strong>School application support:</strong> documents a family chooses to send us when they ask us to help submit a school application.": "<strong>Hỗ trợ nộp hồ sơ vào trường:</strong> giấy tờ gia đình chủ động gửi khi nhờ chúng tôi hỗ trợ nộp hồ sơ.",
+  "<strong>Photos and videos</strong> taken at our events and programs.": "<strong>Ảnh và video</strong> chụp tại sự kiện và chương trình.",
+  "<strong>Website use:</strong> our website does not use advertising or tracking cookies. Our web host and font provider may record technical information, such as IP addresses, to deliver the site securely.": "<strong>Sử dụng website:</strong> website không dùng cookie quảng cáo hay theo dõi. Nhà cung cấp lưu trữ web và phông chữ có thể ghi nhận thông tin kỹ thuật, như địa chỉ IP, để vận hành website an toàn.",
+  "How we use it": "Cách chúng tôi sử dụng",
+  "We use personal information only to answer your questions, run our programs, support applications you ask us to help with, share program updates you have agreed to receive, and improve our services.": "Chúng tôi chỉ dùng thông tin cá nhân để trả lời câu hỏi, tổ chức chương trình, hỗ trợ hồ sơ khi bạn nhờ, gửi tin cập nhật mà bạn đã đồng ý nhận, và cải thiện dịch vụ.",
+  "Consent and young people": "Sự đồng ý và người dưới 18 tuổi",
+  "We collect personal information with your consent. For participants under 18, we ask a parent or guardian for consent. You may withdraw your consent at any time.": "Chúng tôi thu thập thông tin cá nhân khi có sự đồng ý của bạn. Với người tham gia dưới 18 tuổi, chúng tôi xin sự đồng ý của cha mẹ hoặc người giám hộ. Bạn có thể rút lại sự đồng ý bất cứ lúc nào.",
+  "Photos and media": "Ảnh và truyền thông",
+  "We ask for consent before publishing photos or videos in which a child or young person can be identified, and we ask parents or guardians for consent for participants under 18. If you would like a photo of you or your child removed from our website or social media, email us and we will remove it.": "Chúng tôi xin phép trước khi đăng ảnh hoặc video có thể nhận ra trẻ em hay thanh niên, và xin sự đồng ý của cha mẹ hoặc người giám hộ với người dưới 18 tuổi. Nếu bạn muốn gỡ ảnh của mình hoặc con mình khỏi website hay mạng xã hội, hãy email cho chúng tôi và chúng tôi sẽ gỡ.",
+  "When we share information": "Khi nào chúng tôi chia sẻ thông tin",
+  "We do not sell or rent personal information. We share it only:": "Chúng tôi không bán hay cho thuê thông tin cá nhân. Chúng tôi chỉ chia sẻ:",
+  "with a school board or school, when a family asks us to submit an application on their behalf;": "với hội đồng trường học hoặc nhà trường, khi gia đình nhờ chúng tôi nộp hồ sơ thay;",
+  "with service providers that host our website and email, who must protect it;": "với các nhà cung cấp dịch vụ lưu trữ website và email, những bên có nghĩa vụ bảo vệ thông tin;",
+  "when required by Canadian law.": "khi luật pháp Canada yêu cầu.",
+  "We do not share the personal information of students or families with any government body, except where required by Canadian law.": "Chúng tôi không chia sẻ thông tin cá nhân của học sinh hay gia đình với bất kỳ cơ quan chính phủ nào, trừ khi luật pháp Canada yêu cầu.",
+  "Storage and security": "Lưu trữ và bảo mật",
+  "We take reasonable steps to protect personal information, and access is limited to team members who need it. Some of our service providers may store information outside Canada, where it is protected by their security measures and subject to local laws.": "Chúng tôi áp dụng các biện pháp hợp lý để bảo vệ thông tin cá nhân, và chỉ những thành viên cần thiết mới được truy cập. Một số nhà cung cấp dịch vụ có thể lưu thông tin ngoài Canada, được bảo vệ bằng biện pháp an ninh của họ và chịu sự điều chỉnh của luật sở tại.",
+  "How long we keep it": "Thời gian lưu giữ",
+  "We keep personal information only as long as needed for the purpose it was collected, or as required by law, and then delete it securely.": "Chúng tôi chỉ lưu thông tin cá nhân trong thời gian cần thiết cho mục đích thu thập, hoặc theo yêu cầu của luật pháp, rồi xoá một cách an toàn.",
+  "Your rights": "Quyền của bạn",
+  "You can ask to see, correct or delete the personal information we hold about you. Contact our Privacy Officer, Phan Thị Quỳnh Trang, at <a href=\"mailto:contact@cvcec.org\">contact@cvcec.org</a>. If you are not satisfied with our response, you may contact the Office of the Privacy Commissioner of Canada.": "Bạn có thể yêu cầu xem, sửa hoặc xoá thông tin cá nhân chúng tôi lưu về bạn. Xin liên hệ Cán bộ phụ trách quyền riêng tư, Phan Thị Quỳnh Trang, qua <a href=\"mailto:contact@cvcec.org\">contact@cvcec.org</a>. Nếu chưa hài lòng với phản hồi của chúng tôi, bạn có thể liên hệ Văn phòng Ủy viên Quyền riêng tư Canada.",
+  "Changes to this policy": "Thay đổi chính sách",
+  "We may update this policy from time to time. The date at the top shows when it was last updated.": "Chúng tôi có thể cập nhật chính sách này theo thời gian. Ngày ở đầu trang cho biết lần cập nhật gần nhất.",
+  "Breadcrumb": "Đường dẫn"
+ }
+}
