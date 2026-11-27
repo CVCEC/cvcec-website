@@ -632,5 +632,6 @@ strong { color: var(--ink); font-weight: 600; }
 
 /* ---------- language switch ---------- */
 .lang-switch a { border: 1.5px solid var(--line); font-weight: 700; font-size: .85rem; padding: .45rem .8rem; margin-left: .3rem; }
+.lang-switch a::before { content: "🌐"; content: ""; }
 .lang-switch a:hover { border-color: var(--red); background: #fff; }
 @media (max-width: 940px) { .lang-switch { border-bottom: 0 !important; margin-top: .8rem; } .lang-switch a { text-align: center; margin: 0; border-radius: 999px; padding: .75rem; } }

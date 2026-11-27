@@ -45,6 +45,8 @@ NAV = [
     ("Programs", "/programs", [("All programs", "/programs"),
                                ("Vietnamese School · Trường Tiếng Việt Của Em", "/programs/vietnamese-school"),
                                ("PEI Branch", "/programs/pei-branch"),
+                               ("Manitoba Branch", "https://manitoba.cvcec.org/"),
+                               ("CVCEC in Vietnam", "https://vn.cvcec.org/"),
                                ("Viet Youth Readiness Hub", "/programs/viet-youth-readiness-hub"),
                                ("Viet Youth Readiness & Safety Initiative", "/programs/viet-youth-safety-initiative"),
                                ("Leading Urban Change (U of T)", "/programs/leading-urban-change"),
@@ -111,6 +113,7 @@ UI_VI = [
     ('>All programs<', '>Tất cả chương trình<'), ('>Programs<', '>Chương trình<'),
     ('>Vietnamese School · Trường Tiếng Việt Của Em<', '>Trường Tiếng Việt Của Em<'),
     ('>PEI Branch<', '>Chi nhánh PEI<'),
+    ('>Manitoba Branch<', '>Chi nhánh Manitoba<'), ('>CVCEC in Vietnam<', '>CVCEC tại Việt Nam<'),
     ('>Viet Youth Readiness &amp; Safety Initiative<', '>Sáng kiến Sẵn sàng &amp; An toàn<'),
     ('>Mentoring Program for Educators<', '>Chương trình Mentoring cho nhà giáo<'),
     ('>Study in Canada guide', '>Cẩm nang Du học Canada'),
@@ -178,8 +181,14 @@ def link_to_vi(markup):
     return re.sub(r'href="(/[^"]*)"', fix, markup)
 
 
-def vi_table(name):
+def vi_file(name):
+    """Translation file for a page: flat (programs__x.json) or nested (programs/x.json)."""
     f = VI_DIR / f"{name}.json"
+    return f if f.exists() else VI_DIR / (name.replace("__", "/") + ".json")
+
+
+def vi_table(name):
+    f = vi_file(name)
     if not f.exists():
         return {}, {}
     data = json.loads(f.read_text(encoding="utf-8"))
@@ -422,6 +431,8 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
         <li><a href="/programs/viet-youth-readiness-hub">Viet Youth Readiness Hub</a></li>
         <li><a href="/programs/vietnamese-school">Vietnamese School</a></li>
         <li><a href="/programs/pei-branch">PEI Branch</a></li>
+        <li><a href="https://manitoba.cvcec.org/">Manitoba Branch</a></li>
+        <li><a href="https://vn.cvcec.org/">CVCEC in Vietnam</a></li>
         <li><a href="/programs/viet-youth-safety-initiative">Readiness &amp; Safety Initiative</a></li>
         <li><a href="/programs/leading-urban-change">Leading Urban Change</a></li>
         <li><a href="/programs/mentoring-program">Mentoring Program</a></li>
@@ -598,10 +609,10 @@ def main():
         url_path = "/" if str(rel) == "index" else "/" + str(rel)
         page_files.append((f, url_path, str(rel).replace("/", "__")))
     for f, url_path, name in page_files:
-        if (VI_DIR / f"{name}.json").exists():
+        if vi_file(name).exists():
             VI_PAGES.add(url_path)
     for p in posts:
-        if (VI_DIR / f"post__{p['id']}.json").exists():
+        if vi_file(f"post__{p['id']}").exists():
             VI_PAGES.add(p["path"])
 
     def build_pages(posts_here, to_url, tables):
