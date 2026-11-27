@@ -44,14 +44,12 @@ NAV = [
     ("About", "/about", [("About CVCEC", "/about"), ("Governance & accountability", "/about/governance")]),
     ("Programs", "/programs", [("All programs", "/programs"),
                                ("Vietnamese School · Trường Tiếng Việt Của Em", "/programs/vietnamese-school"),
-                               ("PEI Branch", "/programs/pei-branch"),
-                               ("Manitoba Branch", "https://manitoba.cvcec.org/"),
-                               ("CVCEC in Vietnam", "https://vn.cvcec.org/"),
                                ("Viet Youth Readiness Hub", "/programs/viet-youth-readiness-hub"),
-                               ("Viet Youth Readiness & Safety Initiative", "/programs/viet-youth-safety-initiative"),
-                               ("Leading Urban Change (U of T)", "/programs/leading-urban-change"),
-                               ("Mentoring Program for Educators", "/programs/mentoring-program"),
+                               ("Readiness & Safety Initiative", "/programs/viet-youth-safety-initiative", "sub"),
                                ("Study in Canada guide", "https://duhoccanada.cvcec.org/")]),
+    ("Branches", "/about#branches", [("PEI Branch", "/programs/pei-branch"),
+                                     ("Manitoba Branch", "https://manitoba.cvcec.org/"),
+                                     ("CVCEC in Vietnam", "https://vn.cvcec.org/")]),
     ("Our Impact", "/our-impact", []),
     ("News & Media", "/news-media", [("Media coverage", "/news-media"), ("News releases", "/news-media/news"),
                                      ("Photo gallery", "/news-media/gallery")]),
@@ -112,7 +110,8 @@ UI_VI = [
     ('>Governance &amp; accountability<', '>Quản trị &amp; trách nhiệm giải trình<'),
     ('>All programs<', '>Tất cả chương trình<'), ('>Programs<', '>Chương trình<'),
     ('>Vietnamese School · Trường Tiếng Việt Của Em<', '>Trường Tiếng Việt Của Em<'),
-    ('>PEI Branch<', '>Chi nhánh PEI<'),
+    ('>PEI Branch<', '>Chi nhánh PEI<'), ('>Branches<', '>Chi nhánh<'), ('aria-label="Show Branches pages"', 'aria-label="Xem các trang Chi nhánh"'),
+    ('<p class="footer-head" style="margin-top:1.4rem">Branches</p>', '<p class="footer-head" style="margin-top:1.4rem">Chi nhánh</p>'),
     ('>Manitoba Branch<', '>Chi nhánh Manitoba<'), ('>CVCEC in Vietnam<', '>CVCEC tại Việt Nam<'),
     ('>Viet Youth Readiness &amp; Safety Initiative<', '>Sáng kiến Sẵn sàng &amp; An toàn<'),
     ('>Mentoring Program for Educators<', '>Chương trình Mentoring cho nhà giáo<'),
@@ -290,13 +289,17 @@ def nav_html(current):
     items = []
     for label, href, children in NAV:
         active = current == href or current.startswith(href + "/") or any(current == c[1] for c in children)
+        if href == "/programs" and current in ("/programs/pei-branch", "/programs/mentoring-program"):
+            active = False
         cls = ' class="is-active"' if active else ""
         if children:
             sub = []
-            for cl, ch in children:
+            for c in children:
+                cl, ch = c[0], c[1]
+                li = ' class="sub-item"' if len(c) > 2 else ""
                 cur = ' aria-current="page"' if current == ch else ""
                 ext = '<span class="ext" aria-hidden="true">↗</span>' if is_external(ch) else ""
-                sub.append(f'<li><a href="{ch}"{cur}>{esc(cl)}{ext}</a></li>')
+                sub.append(f'<li{li}><a href="{ch}"{cur}>{esc(cl)}{ext}</a></li>')
             items.append(
                 f'<li class="has-sub"><a href="{href}"{cls}>{esc(label)}</a>'
                 f'<button class="sub-toggle" aria-expanded="false" aria-label="Show {esc(label)} pages">'
@@ -428,14 +431,9 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
     <div>
       <p class="footer-head">Programs</p>
       <ul class="footer-links">
-        <li><a href="/programs/viet-youth-readiness-hub">Viet Youth Readiness Hub</a></li>
         <li><a href="/programs/vietnamese-school">Vietnamese School</a></li>
-        <li><a href="/programs/pei-branch">PEI Branch</a></li>
-        <li><a href="https://manitoba.cvcec.org/">Manitoba Branch</a></li>
-        <li><a href="https://vn.cvcec.org/">CVCEC in Vietnam</a></li>
+        <li><a href="/programs/viet-youth-readiness-hub">Viet Youth Readiness Hub</a></li>
         <li><a href="/programs/viet-youth-safety-initiative">Readiness &amp; Safety Initiative</a></li>
-        <li><a href="/programs/leading-urban-change">Leading Urban Change</a></li>
-        <li><a href="/programs/mentoring-program">Mentoring Program</a></li>
         <li><a href="https://duhoccanada.cvcec.org/">Study in Canada guide</a></li>
         <li><a href="/programs">All programs</a></li>
       </ul>
@@ -448,6 +446,12 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
         <li><a href="/news-media">Media coverage</a></li>
         <li><a href="/news-media/news">News releases</a></li>
         <li><a href="/news-media/gallery">Photo gallery</a></li>
+      </ul>
+      <p class="footer-head" style="margin-top:1.4rem">Branches</p>
+      <ul class="footer-links">
+        <li><a href="/programs/pei-branch">PEI Branch</a></li>
+        <li><a href="https://manitoba.cvcec.org/">Manitoba Branch</a></li>
+        <li><a href="https://vn.cvcec.org/">CVCEC in Vietnam</a></li>
       </ul>
     </div>
     <div>

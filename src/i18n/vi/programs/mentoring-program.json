@@ -6,7 +6,6 @@
  "text": {
   "Mentoring Program for Professional Development of Educators | CVCEC": "Chương trình Mentoring Phát triển Chuyên môn cho Nhà giáo | CVCEC",
   "Since 2021, the Mentoring Program for Professional Development of Educators has helped English and language teachers grow through mentoring circles, portfolios and webinars. It is now a CVCEC initiative.": "Từ năm 2021, Chương trình Mentoring Phát triển Chuyên môn cho Nhà giáo đã giúp giáo viên tiếng Anh và ngoại ngữ phát triển qua các nhóm cố vấn, hồ sơ năng lực và webinar. Nay đây là một sáng kiến của CVCEC.",
-  "<a href=\"/\">Home</a><span aria-hidden=\"true\">/</span><a href=\"/programs\">Programs</a><span aria-hidden=\"true\">/</span>Mentoring Program": "<a href=\"/\">Trang chủ</a><span aria-hidden=\"true\">/</span><a href=\"/programs\">Chương trình</a><span aria-hidden=\"true\">/</span>Chương trình Mentoring",
   "For educators · Since 2021": "Dành cho nhà giáo · Từ 2021",
   "Mentoring Program for Professional Development of Educators": "Chương trình Mentoring Phát triển Chuyên môn cho Nhà giáo",
   "Founded by Phan Thị Quỳnh Trang in 2021, the program helps teachers grow their skills, their professional identity and their network through mentoring. Today it is a CVCEC initiative.": "Do Phan Thị Quỳnh Trang sáng lập năm 2021, chương trình giúp giáo viên nâng cao kỹ năng, xây dựng bản sắc nghề nghiệp và mở rộng mạng lưới qua mentoring. Nay đây là một sáng kiến của CVCEC.",
@@ -58,6 +57,7 @@
   "Teachers in Canada and Vietnam are welcome.": "Chào đón giáo viên ở Canada và Việt Nam.",
   "<a class=\"btn btn-light\" href=\"/contact\">Contact us</a>": "<a class=\"btn btn-light\" href=\"/contact\">Liên hệ</a>",
   "Breadcrumb": "Đường dẫn",
-  "Mentoring Program at a glance": "Chương trình Mentoring qua các con số"
+  "Mentoring Program at a glance": "Chương trình Mentoring qua các con số",
+  "<a href=\"/\">Home</a><span aria-hidden=\"true\">/</span><a href=\"/about#branches\">Branches</a><span aria-hidden=\"true\">/</span>Mentoring Program": "<a href=\"/\">Trang chủ</a><span aria-hidden=\"true\">/</span><a href=\"/about#branches\">Chi nhánh</a><span aria-hidden=\"true\">/</span>Chương trình Mentoring"
  }
 }
