@@ -46,6 +46,7 @@ NAV = [
                                ("Vietnamese School · Trường Tiếng Việt Của Em", "/programs/vietnamese-school"),
                                ("Viet Youth Readiness Hub", "/programs/viet-youth-readiness-hub"),
                                ("Readiness & Safety Initiative", "/programs/viet-youth-safety-initiative", "sub"),
+                               ("Leading Urban Change (U of T)", "/programs/leading-urban-change", "sub"),
                                ("Study in Canada guide", "https://duhoccanada.cvcec.org/")]),
     ("Branches", "/about#branches", [("PEI Branch", "/programs/pei-branch"),
                                      ("Manitoba Branch", "https://manitoba.cvcec.org/"),
@@ -69,6 +70,9 @@ REDIRECTS = {
     "/media-coverage/3020163_cvcec-celebrates-vietnamese-lunar-new-year-2025-across-canadian-schools-and-communities":
         "/news-media/3020163_cvcec-celebrates-lunar-new-year-2025-with-toronto-s-vietnamese-community",
     "/viet-youth-readiness-hub": "/programs/viet-youth-readiness-hub",
+    # The Mentoring Program now lives on the Vietnam branch site
+    "/programs/mentoring-program": "https://vn.cvcec.org/#mentoring",
+    "/vi/programs/mentoring-program": "https://vn.cvcec.org/#mentoring",
 }
 
 ORG_LD = {
@@ -289,7 +293,7 @@ def nav_html(current):
     items = []
     for label, href, children in NAV:
         active = current == href or current.startswith(href + "/") or any(current == c[1] for c in children)
-        if href == "/programs" and current in ("/programs/pei-branch", "/programs/mentoring-program"):
+        if href == "/programs" and current == "/programs/pei-branch":
             active = False
         cls = ' class="is-active"' if active else ""
         if children:
@@ -434,6 +438,7 @@ def layout(url_path, title, description, body, og_image=None, og_type="website",
         <li><a href="/programs/vietnamese-school">Vietnamese School</a></li>
         <li><a href="/programs/viet-youth-readiness-hub">Viet Youth Readiness Hub</a></li>
         <li><a href="/programs/viet-youth-safety-initiative">Readiness &amp; Safety Initiative</a></li>
+        <li><a href="/programs/leading-urban-change">Leading Urban Change</a></li>
         <li><a href="https://duhoccanada.cvcec.org/">Study in Canada guide</a></li>
         <li><a href="/programs">All programs</a></li>
       </ul>
@@ -583,8 +588,9 @@ def build_post(p, prev_p, next_p):
 
 
 def redirect_page(old, new):
-    target = SITE + new
-    rel = prefix_for(old) + new.lstrip("/")
+    external = new.startswith("http")
+    target = new if external else SITE + new
+    rel = new if external else prefix_for(old) + new.lstrip("/")
     return f"""<!DOCTYPE html>
 <html lang="en-CA"><head><meta charset="utf-8"><title>Page moved | CVCEC</title>
 <link rel="canonical" href="{target}"><meta name="robots" content="noindex">
